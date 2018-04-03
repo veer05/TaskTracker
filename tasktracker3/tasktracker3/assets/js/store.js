@@ -53,6 +53,7 @@ let empty_form = {
   description: "",
   time_taken: "",
   completed: "",
+  token: "",
 };
 
 function form(state = empty_form, action) {

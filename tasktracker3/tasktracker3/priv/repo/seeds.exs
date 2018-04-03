@@ -21,6 +21,7 @@ defmodule Seeds do
     a = Repo.insert!(%User{ name: "JrTrump" , email: "trump@usprez.com" , password_hash: p1 })
     b = Repo.insert!(%User{ name: "Chuck" ,email: "chucknorris@possible.com" , password_hash: p1 })
     c = Repo.insert!(%User{ name: "Gengis" ,email: "conqurergengis@mongol.com" , password_hash: p1 })
+    d = Repo.insert!(%User{ name: "Arnold" ,email: "arnold@goldgym.com" , password_hash: p1 })
 
 
     Repo.delete_all(Task)
