@@ -14,7 +14,6 @@ defmodule Seeds do
   alias Tasktracker3.Repo
   alias Tasktracker3.Users.User
   alias Tasktracker3.Tasks.Task
-
   def run do
     p1 = Comeonin.Argon2.hashpwsalt("password1")
     Repo.delete_all(User)

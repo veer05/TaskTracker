@@ -5,25 +5,40 @@ import api from '../api';
 
 
 function TaskForm(props) {
-  console.log("props@PostForm", props);
-
   function update(ev) { 
     let tgt = $(ev.target);
 
     let data = {};
-    data[tgt.attr('name')] = tgt.val();
+    if (tgt.attr('name') == "completed") {
+      data["completed"] = $(tgt).is(':checked') ? 'true' : 'false';
+    }
+    else {
+      data[tgt.attr('name')] = tgt.val();
+    }
     let action = {
       type: 'UPDATE_FORM',
       data: data,
     };
-    console.log(action);
     props.dispatch(action);
   }
-
   function submit(ev) {
-    api.submit_task(props.form);
-    console.log("Should create post.");
-    console.log(props.form);
+    
+    if (props.form.title == "") {
+       alert('Task Title Cannot be empty')
+    }
+    else if (props.form.assigned_to == ""){
+     alert('You need to assign task to someone, Cannot be blank')
+    }
+    else if (props.form.description == ""){
+      alert('Task Description Cannot be null')
+    }
+    else if (props.form.time_taken % 15 != 0 || props.form.time_taken == ""){
+      
+      alert('Time Taken Should be in multiple of 15 min, Please provide valid data')
+    } 
+    else{
+      api.submit_task(props.form);
+    }
   }
 
   function clear(ev) {
@@ -39,6 +54,7 @@ function TaskForm(props) {
     <FormGroup>
       <Label for="user_id">Assigned To</Label>
       <Input type="select" name="assigned_to" value={props.form.assigned_to} onChange={update}>
+        <option></option>
         { users }
       </Input>
     </FormGroup>
@@ -54,13 +70,12 @@ function TaskForm(props) {
       <Input type="checkbox" className= "setmargin" name="completed" value={props.form.completed} onChange={update}/>
     </FormGroup>
     <Button onClick={submit} color="primary">Create Task</Button> &nbsp;
-    <Button onClick={clear}>Clear</Button>
+    <Button className = "btn btn-info" onClick={clear}>Clear</Button>
   </div>;
 }
 
 
 function state2props(state) {
-  console.log("rerender", state);
   return { 
   form: state.form, 
   users: state.users,

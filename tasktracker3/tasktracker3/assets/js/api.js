@@ -15,6 +15,16 @@ class TheServer {
     });
   }
 
+  delete_tasks(id) {
+      console.log("/api/v1/tasks/"+id);
+    $.ajax("/api/v1/tasks/"+id, {
+      method: "delete",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+    });
+    this.request_tasks();
+  }
+
   request_users() {
     $.ajax("/api/v1/users", {
       method: "get",
@@ -59,6 +69,23 @@ class TheServer {
       },
     });
   }
-}
 
+  submit_user(data) {
+        console.log('This is when i submit the user');
+        console.log(data);
+        $.ajax("/api/v1/users", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({ user: data }),
+      success: (resp) => {
+        store.dispatch({
+          type: 'ADD_USER',
+          task: resp.data,
+        });
+      },
+    });
+  }
+}
+  
 export default new TheServer();

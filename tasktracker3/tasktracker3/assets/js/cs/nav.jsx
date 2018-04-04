@@ -2,14 +2,13 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Form, FormGroup, NavItem, Input, Button } from 'reactstrap';
 import { connect } from 'react-redux';
+
 import api from '../api';
 
 let LoginForm = connect(({login}) => {return {login};})((props) => {
   
   function update(ev) {
-    console.log('In Update when login')
     let tgt = $(ev.target);
-    console.log(tgt)
     let data = {};
     data[tgt.attr('name')] = tgt.val();
     props.dispatch({
@@ -18,10 +17,9 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
     });
   }
 
+
   function create_token(ev) {
     api.submit_login(props.login);
-    console.log('Create_token dude')
-    console.log(props.login);
   }
 
   return <div className="navbar-text">
@@ -42,19 +40,25 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
 
   let Session = connect(({token}) => {return {token};})((props) => {
   return <div className="navbar-text">
-    User id = { props.token.user_id }
+    User name = { props.token.user_name }
   </div>;
   });
   
   function Nav(props) {
   let session_info;
-
+  let action_info;
+  let tasks_info;
+  let logout;
   if (props.token) {
     session_info = <Session token={props.token} />;
+    action_info = <NavLink to="/users" href="#" className="nav-link">All Users</NavLink>;
+    tasks_info = <NavLink to="/" exact={true} activeClassName="active" className="nav-link">Tasks</NavLink>;
   }
   else {
     session_info = <LoginForm />
+    action_info = (<NavLink to="/register" href="#" className="nav-link">Register</NavLink>);
   }
+
 
   return (
      <nav className="navbar navbar-dark bg-dark navbar-expand">
@@ -63,12 +67,13 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
       </span>
       <ul className="navbar-nav mr-auto">
       <NavItem>
-          <NavLink to="/" exact={true} activeClassName="active" className="nav-link">Tasks</NavLink>
+          { tasks_info }
       </NavItem>
       <NavItem>
-           <NavLink to="/users" href="#" className="nav-link">All Users</NavLink>
+           { action_info }
       </NavItem>
        </ul>
+       { logout }
       { session_info }
      </nav>
    );

@@ -28,7 +28,7 @@ function token(state = null, action) {
       return action.token;
     default:
       return state;
-  }
+  }	
 }
 
 let empty_login = {
@@ -37,7 +37,6 @@ let empty_login = {
 };
 
 function login(state = empty_login, action) {
-  console.log('IN login store.js')
   switch (action.type) {
     case 'UPDATE_LOGIN_FORM':
       return Object.assign({}, state, action.data);
@@ -56,26 +55,55 @@ let empty_form = {
   token: "",
 };
 
+function selective_clear(state) {
+	let clear_state = {
+	user_id: state.user_id,
+	assigned_to: "",
+	title: "",
+	description: "",
+	time_taken: "",
+	completed: "",
+	token: state.token,}
+	return clear_state;
+}
+
+function register_state(){
+	let reg_state = {
+		name: "",
+		email: "",
+		password: "",
+	}
+	return reg_state;
+}
+
 function form(state = empty_form, action) {
   switch (action.type) {
     case 'UPDATE_FORM':
+      console.log('Inside update form ',state)
       return Object.assign({}, state, action.data);
     case 'CLEAR_FORM':
-	    return empty_form;
+	    return Object.assign({}, selective_clear(state), action.data);
 	case 'SET_TOKEN':
       return Object.assign({}, state, action.token);
+    case 'LOGOFF':    	
+    	return empty_form; 
     default:
+      console.log('Inside default form ',state)
       return state;
   }
 }
 
 function root_reducer(state0, action) {
-  console.log("reducer", action);
   // {posts, users, form} is ES6 shorthand for
   // {posts: posts, users: users, form: form}
-  let reducer = combineReducers({tasks, users, form, token, login});
+  /*if (action.type == 'UPDATE_LOGIN_FORM') {
+  		let reducer = combineReducers({users})
+  }
+  else{*/
+  		let reducer = combineReducers({tasks, users, form, token, login});
+  //}
   let state1 = reducer(state0, action);
-  console.log("state1", state1);
+  //console.log("state1", state1);
   return deepFreeze(state1);
 };
 

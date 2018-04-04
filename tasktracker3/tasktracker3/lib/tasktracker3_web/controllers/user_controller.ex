@@ -3,6 +3,7 @@ defmodule Tasktracker3Web.UserController do
 
   alias Tasktracker3.Users
   alias Tasktracker3.Users.User
+  alias Tasktracker3.Users
 
   action_fallback Tasktracker3Web.FallbackController
 
@@ -12,7 +13,9 @@ defmodule Tasktracker3Web.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
+    hash_pwd = Comeonin.Argon2.hashpwsalt(user_params["password"]);
+    user = %{ name: user_params["name"], email: user_params["email"], password_hash: hash_pwd}
+    with {:ok, %User{} = user} <- Users.create_user(user) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", user_path(conn, :show, user))

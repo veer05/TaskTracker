@@ -56,6 +56,8 @@ defmodule Tasktracker3.Users do
 
   """
   def create_user(attrs \\ %{}) do
+    IO.inspect('create_user')
+    IO.inspect(attrs)
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
