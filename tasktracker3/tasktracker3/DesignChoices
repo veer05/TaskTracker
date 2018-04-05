@@ -1,0 +1,32 @@
+Design Choices for SPA TaskTracker: 
+
+  Deployed at : spatasktracker.veerm.com
+  
+Design Choices Made: 
+
+  Initially when a user arrives at the web-stie, He/She is displayed a page, which directs him to either login in or register as a new user
+  
+  - On Register :
+      On Register, he is allowed to enter the following details :-
+        - Name : This corresponds to the name of the user, Validation is added so that the user cannot give blank as the name
+        - Password : This correponds to the password of the user, Validatoin is added so that the password has a min length of 8        characters 
+        - Email : This corresponds to the email id of the user, Validation is added so that the email is validdated to check if it is of the correct format.
+        
+    After the user, registers he is then prompted that the user has been successfully created, and then he is then directed towards the main login page where he is supposed to login
+    
+ - On Login: 
+ 
+    - The user can 
+        - Create new Task
+        - Edit an Existing Task
+        - Delete an Existin Task
+        - View all the users of task tracker application 
+        
+        - Create new Task : A user has a form which he/she could fill in order to assign task to themselves or other users in the application, He needs to assign the task to the person, give proper title, proper description , and the time spent.
+        NOTE: Since he is creating the task, I have PURPOSEFULLY added validation for time_taken, he needs to enter valid time inorder to create a task
+        - Edit a Task : In this case, the task clicked is loaded onto the form, and once the user is done editing he submits the task the same task will now be updated with latest changes
+        - Delete a Task : On click of delete button the task will be deleted
+        - View all the users : This makes sure that the user can see all the users of the task tracker applicatiton. \
+        
+   On Click of the logout button, the user is moved to the main page where he is not logged in anymore.Irrespective of which page the user is at.
+        
